@@ -2,4 +2,4 @@
 
 var WaveRead = require('./WaveRead');
 
-WaveRead(process.stdin, process.stdout);
+WaveRead(process.stdin, function(val){console.log(val);}, 10);

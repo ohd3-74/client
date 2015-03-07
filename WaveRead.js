@@ -1,4 +1,4 @@
-var mod = function(inStream, outStream){
+var mod = function(inStream, callback, threshold){
 
   var fft = require('./FFT');
 
@@ -21,12 +21,11 @@ var mod = function(inStream, outStream){
         var max = 0;
         for(var j = 0; j < datum.length/2; ++j){
           s[j] = datum[j].norm() / size;
-          if(s[j] > 10){
+          if(s[j] > threshold){
             max = j;
           }
         }
-        outStream.write('' + max);
-        outStream.write('\n');
+        callback(max);
         data.push(s);
         bc = 0;
         arr = [];
