@@ -12,15 +12,21 @@ process.stdin.on('data', function(chunk){
   if(chunk == ''){return;}
   for(var i = 0; i < chunk.length; ++i, ++counter){
     if(counter < 43){continue;}
-    //console.error(chunk[i]);
     arr[bc++] = chunk[i] - 128;
     if(bc >= size){
       var datum = fft(arr);
       var s = [];
+      var max = 0;
       for(var j = 0; j < datum.length/2; ++j){
         s[j] = datum[j].norm() / size;
-        console.error(j + ': ' + Array(~~s[j]+1).join('*'));
+        if(s[j] > 10){
+          max = j;
+        }
       }
+      var buf = new Buffer(1);
+      buf[0] = max;
+      process.stdout.write(buf);
+      process.stdout.write('\n');
       data.push(s);
       bc = 0;
       arr = [];
