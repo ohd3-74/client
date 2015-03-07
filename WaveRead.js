@@ -1,3 +1,5 @@
+var mod = function(inStream, outStream){
+
 var fft = require('./FFT');
 
 var data = [];
@@ -8,7 +10,7 @@ var arr = [];
 
 var size = 1024;
 
-process.stdin.on('data', function(chunk){
+inStream.on('data', function(chunk){
   if(chunk == ''){return;}
   for(var i = 0; i < chunk.length; ++i, ++counter){
     if(counter < 43){continue;}
@@ -23,10 +25,8 @@ process.stdin.on('data', function(chunk){
           max = j;
         }
       }
-      var buf = new Buffer(1);
-      buf[0] = max;
-      process.stdout.write(buf);
-      process.stdout.write('\n');
+      outStream.write('' + max);
+      outStream.write('\n');
       data.push(s);
       bc = 0;
       arr = [];
@@ -34,6 +34,8 @@ process.stdin.on('data', function(chunk){
   }
 });
 
-//process.stdin.pipe(process.stdout);
-process.stdin.resume();
+inStream.resume();
 
+};
+
+module.exports = mod;
