@@ -15,7 +15,7 @@ var ss = require('socket.io-stream');
 //var mic = require('microphone');
 
 var spawn = require('child_process').spawn;
-var arecord = spawn('arecord', ['-D', 'plughw:1']);
+var arecord = spawn('arecord', ['-f', 'S16_LE', '-c1', '-r16000', '-D', 'plughw:1']);
 
 console.log('connect to ' + host + ':' + port);
 
