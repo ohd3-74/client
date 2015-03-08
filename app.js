@@ -33,7 +33,7 @@ setInterval(function() {
 	}
 	//pos = (pos+1) % NUM_LEDS;
 	pos = ! pos;
-}, 250);
+}, 20);
 
 //var mic = require('microphone');
 
@@ -44,16 +44,17 @@ var WaveRead = require('./WaveRead');
 
 WaveRead(arecord.stdout, function(data) {
 	//console.log(data);
-	var count = 30;
 	
 	//emg
-	if(data > 300){
-		red = data;
+	if(data > 250){
+		red = data/2;
 		blue = green = 0;
+		if(data > 400){red = 255;}
 	//calling 
 	}else if(data > 0){
-		blue = data;
 		red = green = 0;
+	
+		blue = 255;
 	}else{
 		blue = red = 0;
 		green = 255;
