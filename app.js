@@ -19,7 +19,7 @@ var _num_leds = NUM_LEDS;
 var _led_state = new Array(_num_leds*3);
 
 var red = pos = 0;
-var blue = 0;
+var blue = green = 0;
 
 init();
 
@@ -27,7 +27,7 @@ setInterval(function() {
 	for (i=0; i<NUM_LEDS; i++)
 	{
 //		if (i==pos)
-			setColorRGB(i, red, 0, blue);  
+			setColorRGB(i, red, green, blue);  
 //		else
 //			setColorRGB(i, 0, 0, 0); 
 	}
@@ -43,14 +43,20 @@ var arecord = spawn('arecord', ['-D', 'plughw:1']);
 var WaveRead = require('./WaveRead');
 
 WaveRead(arecord.stdout, function(data) {
-	console.log(data);
+	//console.log(data);
 	var count = 30;
+	
+	//emg
 	if(data > 300){
 		red = data;
-		blue = 0;
-	}else{
+		blue = green = 0;
+	//calling 
+	}else if(data > 0){
 		blue = data;
-		red = 0;
+		red = green = 0;
+	}else{
+		blue = red = 0;
+		green = 255;
 	}
 }
 , 5);
